@@ -14,6 +14,10 @@ public class DagligSkaev extends Ordination{
     // TODO
 ///TEST
 
+    public ArrayList<Dosis> getDoser() {
+        return doser;
+    }
+
     public void opretDosis(LocalTime tid, double antal) {
         Dosis dosis = new Dosis(tid,antal);
         doser.add(dosis);
