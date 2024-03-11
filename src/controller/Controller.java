@@ -4,11 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import ordination.DagligFast;
-import ordination.DagligSkaev;
-import ordination.Laegemiddel;
-import ordination.PN;
-import ordination.Patient;
+import ordination.*;
 import storage.Storage;
 
 public class Controller {
@@ -83,10 +79,10 @@ public class Controller {
             throw new IllegalArgumentException("Enheder og klokkeslet ikke ens");
         }
 
-        DagligSkaev nyDK = new DagligSkaev(startDen, slutDen, laegemiddel, klokkeSlet,antalEnheder);
+        DagligSkaev nyDK = new DagligSkaev(startDen, slutDen, laegemiddel, klokkeSlet, antalEnheder);
 
 
-        return null;
+        return nyDK;
     }
 
     /**
@@ -96,7 +92,10 @@ public class Controller {
      * Pre: ordination og dato er ikke null
      */
     public void ordinationPNAnvendt(PN ordination, LocalDate dato) {
-        // TODO
+
+        if (!ordination.givDosis(dato)) {
+            throw new IllegalArgumentException("Dato er uden for gyldighedsperiode");
+        }
     }
 
     /**
@@ -127,8 +126,19 @@ public class Controller {
      */
     public int antalOrdinationerPrVægtPrLægemiddel(double vægtStart,
                                                    double vægtSlut, Laegemiddel laegemiddel) {
-        // TODO
-        return 0;
+
+        int antal = 0;
+
+        int tal;
+        for (Patient patient : storage.getAllPatienter()) {
+            for (Ordination ordination : patient.getOrdinationer()) {
+                if (ordination.getLaegemiddel().equals(laegemiddel)) {
+                    antal++;
+                }
+            }
+        }
+
+        return antal;
     }
 
     public List<Patient> getAllPatienter() {
