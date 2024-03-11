@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class DagligSkaev extends Ordination{
     private ArrayList<Dosis> doser = new ArrayList<>();
-    public DagligSkaev(LocalDate startDen, LocalDate slutDen, Laegemiddel laegemiddel) {
+    public DagligSkaev(LocalDate startDen, LocalDate slutDen, Laegemiddel laegemiddel, LocalTime[] klokkeslet, double[] antalEnheder) {
         super(startDen, slutDen, laegemiddel);
         this.doser = doser;
     }

@@ -83,7 +83,8 @@ public class Controller {
             throw new IllegalArgumentException("Enheder og klokkeslet ikke ens");
         }
 
-        
+        DagligSkaev nyDK = new DagligSkaev(startDen, slutDen, laegemiddel, klokkeSlet,antalEnheder);
+
 
         return null;
     }
@@ -109,9 +110,9 @@ public class Controller {
     //Tung;   faktor der anvendes hvis patient vægt > 120 kg
     public double anbefaletDosisPrDoegn(Patient patient, Laegemiddel laegemiddel) {
         double anbefalet = 0;
-        if (patient.getVaegt()<25){
+        if (patient.getVaegt() < 25) {
             anbefalet = laegemiddel.getEnhedPrKgPrDoegnLet();
-        } else if (patient.getVaegt()>=25 || patient.getVaegt()<=120) {
+        } else if (patient.getVaegt() >= 25 || patient.getVaegt() <= 120) {
             anbefalet = laegemiddel.getEnhedPrKgPrDoegnNormal();
         } else {
             anbefalet = laegemiddel.getEnhedPrKgPrDoegnLet();
