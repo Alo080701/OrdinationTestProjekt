@@ -56,6 +56,6 @@ public class DagligSkaev extends Ordination{
      */
     @Override
     public String getType() {
-        return getType();
+        return "DagligSkaev";
     }
 }
