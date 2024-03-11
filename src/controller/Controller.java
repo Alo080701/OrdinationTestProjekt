@@ -41,7 +41,6 @@ public class Controller {
     public PN opretPNOrdination(LocalDate startDen, LocalDate slutDen,
                                 Patient patient, Laegemiddel laegemiddel, double antal) {
 
-        checkIllegalExceptions(startDen, slutDen, antal);
 
         PN newPN = new PN(startDen, slutDen, laegemiddel, antal);
 
@@ -58,9 +57,7 @@ public class Controller {
                                                 LocalDate slutDen, Patient patient, Laegemiddel laegemiddel,
                                                 double morgenAntal, double middagAntal, double aftenAntal,
                                                 double natAntal) {
-        // TODO
         checkIllegalDates(startDen, slutDen);
-        checkAllAntalForIllegalArgument(morgenAntal, middagAntal, aftenAntal, natAntal);
 
         DagligFast nyDF = new DagligFast(startDen, slutDen, laegemiddel, morgenAntal, middagAntal, aftenAntal, natAntal);
 
@@ -81,7 +78,13 @@ public class Controller {
     public DagligSkaev opretDagligSkaevOrdination(LocalDate startDen,
                                                   LocalDate slutDen, Patient patient, Laegemiddel laegemiddel,
                                                   LocalTime[] klokkeSlet, double[] antalEnheder) {
-        // TODO
+        checkIllegalDates(startDen, slutDen);
+        if (klokkeSlet.length != antalEnheder.length) {
+            throw new IllegalArgumentException("Enheder og klokkeslet ikke ens");
+        }
+
+        
+
         return null;
     }
 
@@ -200,35 +203,10 @@ public class Controller {
     }
 
 
-    private boolean checkIllegalExceptions(LocalDate start, LocalDate end, double antal) {
-        if (checkIllegalDates(start, end)) {
-            throw new IllegalArgumentException("Start date is before end date");
-        } else if (checkIllegalAntal(antal)) {
-            throw new IllegalArgumentException("Antal er under 0");
-        }
-        return false;
-    }
-
-    private boolean checkIllegalDates(LocalDate start, LocalDate end) {
-        return end.isBefore(start);
+    private void checkIllegalDates(LocalDate start, LocalDate end) {
+        throw new IllegalArgumentException("Start date is before end date");
 
     }
 
-    private boolean checkIllegalAntal(double antal) {
-        return antal < 0;
-    }
-
-    private boolean checkAllAntalForIllegalArgument(double morgenAntal, double middagAntal, double aftenAntal, double natAntal) {
-        if (
-                checkIllegalAntal(morgenAntal) ||
-                        checkIllegalAntal(middagAntal) ||
-                        checkIllegalAntal(aftenAntal) ||
-                        checkIllegalAntal(natAntal)
-        ) {
-            return true;
-        }
-        return false;
-
-    }
 
 }
