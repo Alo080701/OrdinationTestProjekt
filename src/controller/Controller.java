@@ -104,9 +104,19 @@ public class Controller {
      * anvendes, og den er afhængig af patientens vægt.
      * Pre: patient og lægemiddel er ikke null
      */
+    //Let;    faktor der anvendes hvis patient vejer < 25 kg
+    //Normal; faktor der anvendes hvis 25 kg <= patient vægt <= 120 kg
+    //Tung;   faktor der anvendes hvis patient vægt > 120 kg
     public double anbefaletDosisPrDoegn(Patient patient, Laegemiddel laegemiddel) {
-        //TODO
-        return 0;
+        double anbefalet = 0;
+        if (patient.getVaegt()<25){
+            anbefalet = laegemiddel.getEnhedPrKgPrDoegnLet();
+        } else if (patient.getVaegt()>=25 || patient.getVaegt()<=120) {
+            anbefalet = laegemiddel.getEnhedPrKgPrDoegnNormal();
+        } else {
+            anbefalet = laegemiddel.getEnhedPrKgPrDoegnLet();
+        }
+        return anbefalet;
     }
 
     /**
