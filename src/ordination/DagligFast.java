@@ -6,7 +6,8 @@ import java.util.Arrays;
 
 public class DagligFast extends Ordination{
     private Dosis[] doser;
-    public DagligFast(LocalDate startDen, LocalDate slutDen, Laegemiddel laegemiddel) {
+    public DagligFast(LocalDate startDen, LocalDate slutDen, Laegemiddel laegemiddel, double morgenAntal, double middagAntal, double aftenAntal,
+                      double natAntal) {
         super(startDen, slutDen, laegemiddel);
         this.doser = new Dosis[4];
     }
