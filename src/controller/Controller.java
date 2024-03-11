@@ -34,12 +34,12 @@ public class Controller {
      *
      * @return opretter og returnerer en PN ordination.
      */
-    public PN opretPNOrdination(LocalDate startDen, LocalDate slutDen,
-                                Patient patient, Laegemiddel laegemiddel, double antal) {
+    public PN opretPNOrdination(LocalDate startDen, LocalDate slutDen, Patient patient, Laegemiddel laegemiddel, double antal) {
 
 
         PN newPN = new PN(startDen, slutDen, laegemiddel, antal);
 
+        patient.newOrdination(newPN);
         return newPN;
     }
 
@@ -49,13 +49,12 @@ public class Controller {
      * Pre: startDen, slutDen, patient og laegemiddel er ikke null
      * Pre: margenAntal, middagAntal, aftanAntal, natAntal >= 0
      */
-    public DagligFast opretDagligFastOrdination(LocalDate startDen,
-                                                LocalDate slutDen, Patient patient, Laegemiddel laegemiddel,
-                                                double morgenAntal, double middagAntal, double aftenAntal,
-                                                double natAntal) {
+    public DagligFast opretDagligFastOrdination(LocalDate startDen, LocalDate slutDen, Patient patient, Laegemiddel laegemiddel, double morgenAntal, double middagAntal, double aftenAntal, double natAntal) {
         checkIllegalDates(startDen, slutDen);
 
         DagligFast nyDF = new DagligFast(startDen, slutDen, laegemiddel, morgenAntal, middagAntal, aftenAntal, natAntal);
+
+        patient.newOrdination(nyDF);
 
         return nyDF;
 
@@ -71,9 +70,7 @@ public class Controller {
      * Pre: startDen, slutDen, patient og laegemiddel er ikke null
      * Pre: alle tal i antalEnheder > 0
      */
-    public DagligSkaev opretDagligSkaevOrdination(LocalDate startDen,
-                                                  LocalDate slutDen, Patient patient, Laegemiddel laegemiddel,
-                                                  LocalTime[] klokkeSlet, double[] antalEnheder) {
+    public DagligSkaev opretDagligSkaevOrdination(LocalDate startDen, LocalDate slutDen, Patient patient, Laegemiddel laegemiddel, LocalTime[] klokkeSlet, double[] antalEnheder) {
         checkIllegalDates(startDen, slutDen);
         if (klokkeSlet.length != antalEnheder.length) {
             throw new IllegalArgumentException("Enheder og klokkeslet ikke ens");
@@ -81,6 +78,7 @@ public class Controller {
 
         DagligSkaev nyDK = new DagligSkaev(startDen, slutDen, laegemiddel, klokkeSlet, antalEnheder);
 
+        patient.newOrdination(nyDK);
 
         return nyDK;
     }
@@ -107,7 +105,7 @@ public class Controller {
     //Let;    faktor der anvendes hvis patient vejer < 25 kg
     //Normal; faktor der anvendes hvis 25 kg <= patient vægt <= 120 kg
     //Tung;   faktor der anvendes hvis patient vægt > 120 kg
-    public double anbefaletDosis PrDoegn(Patient patient, Laegemiddel laegemiddel) {
+    public double anbefaletDosisPrDoegn(Patient patient, Laegemiddel laegemiddel) {
         double anbefalet = 0;
         if (patient.getVaegt() < 25) {
             anbefalet = laegemiddel.getEnhedPrKgPrDoegnLet();
@@ -124,19 +122,18 @@ public class Controller {
      * ordinationer.
      * Pre: laegemiddel er ikke null
      */
-    public int antalOrdinationerPrVægtPrLægemiddel(double vægtStart,
-                                                   double vægtSlut, Laegemiddel laegemiddel) {
+    public int antalOrdinationerPrVægtPrLægemiddel(double vægtStart, double vægtSlut, Laegemiddel laegemiddel) {
 
         int antal = 0;
 
         int tal;
         for (Patient patient : storage.getAllPatienter()) {
-            if(patient.getVaegt() >= vægtStart && patient.getVaegt() <= vægtSlut)
-            for (Ordination ordination : patient.getOrdinationer()) {
-                if (ordination.getLaegemiddel().equals(laegemiddel)) {
-                    antal++;
+            if (patient.getVaegt() >= vægtStart && patient.getVaegt() <= vægtSlut)
+                for (Ordination ordination : patient.getOrdinationer()) {
+                    if (ordination.getLaegemiddel().equals(laegemiddel)) {
+                        antal++;
+                    }
                 }
-            }
         }
 
         return antal;
@@ -170,11 +167,8 @@ public class Controller {
         return p;
     }
 
-    public Laegemiddel opretLaegemiddel(String navn,
-                                        double enhedPrKgPrDoegnLet, double enhedPrKgPrDoegnNormal,
-                                        double enhedPrKgPrDoegnTung, String enhed) {
-        Laegemiddel lm = new Laegemiddel(navn, enhedPrKgPrDoegnLet,
-                enhedPrKgPrDoegnNormal, enhedPrKgPrDoegnTung, enhed);
+    public Laegemiddel opretLaegemiddel(String navn, double enhedPrKgPrDoegnLet, double enhedPrKgPrDoegnNormal, double enhedPrKgPrDoegnTung, String enhed) {
+        Laegemiddel lm = new Laegemiddel(navn, enhedPrKgPrDoegnLet, enhedPrKgPrDoegnNormal, enhedPrKgPrDoegnTung, enhed);
         storage.addLaegemiddel(lm);
         return lm;
     }
@@ -191,37 +185,20 @@ public class Controller {
         this.opretLaegemiddel("Fucidin", 0.025, 0.025, 0.025, "Styk");
         this.opretLaegemiddel("Methotrexat", 0.01, 0.015, 0.02, "Styk");
 
-        this.opretPNOrdination(LocalDate.of(2021, 1, 1), LocalDate.of(2021, 1, 12),
-                storage.getAllPatienter().get(0), storage.getAllLaegemidler()
-                        .get(1),
-                123);
+        this.opretPNOrdination(LocalDate.of(2021, 1, 1), LocalDate.of(2021, 1, 12), storage.getAllPatienter().get(0), storage.getAllLaegemidler().get(1), 123);
 
-        this.opretPNOrdination(LocalDate.of(2021, 2, 12), LocalDate.of(2021, 2, 14),
-                storage.getAllPatienter().get(0), storage.getAllLaegemidler()
-                        .get(0),
-                3);
+        this.opretPNOrdination(LocalDate.of(2021, 2, 12), LocalDate.of(2021, 2, 14), storage.getAllPatienter().get(0), storage.getAllLaegemidler().get(0), 3);
 
-        this.opretPNOrdination(LocalDate.of(2021, 1, 20), LocalDate.of(2021, 1, 25),
-                storage.getAllPatienter().get(3), storage.getAllLaegemidler()
-                        .get(2),
-                5);
+        this.opretPNOrdination(LocalDate.of(2021, 1, 20), LocalDate.of(2021, 1, 25), storage.getAllPatienter().get(3), storage.getAllLaegemidler().get(2), 5);
 
-        this.opretPNOrdination(LocalDate.of(2021, 1, 1), LocalDate.of(2021, 1, 12),
-                storage.getAllPatienter().get(0), storage.getAllLaegemidler()
-                        .get(1),
-                123);
+        this.opretPNOrdination(LocalDate.of(2021, 1, 1), LocalDate.of(2021, 1, 12), storage.getAllPatienter().get(0), storage.getAllLaegemidler().get(1), 123);
 
-        this.opretDagligFastOrdination(LocalDate.of(2021, 1, 10),
-                LocalDate.of(2021, 1, 12), storage.getAllPatienter().get(1),
-                storage.getAllLaegemidler().get(1), 2, 0, 1, 0);
+        this.opretDagligFastOrdination(LocalDate.of(2021, 1, 10), LocalDate.of(2021, 1, 12), storage.getAllPatienter().get(1), storage.getAllLaegemidler().get(1), 2, 0, 1, 0);
 
-        LocalTime[] kl = {LocalTime.of(12, 0), LocalTime.of(12, 40),
-                LocalTime.of(16, 0), LocalTime.of(18, 45)};
+        LocalTime[] kl = {LocalTime.of(12, 0), LocalTime.of(12, 40), LocalTime.of(16, 0), LocalTime.of(18, 45)};
         double[] an = {0.5, 1, 2.5, 3};
 
-        this.opretDagligSkaevOrdination(LocalDate.of(2021, 1, 23),
-                LocalDate.of(2021, 1, 24), storage.getAllPatienter().get(1),
-                storage.getAllLaegemidler().get(2), kl, an);
+        this.opretDagligSkaevOrdination(LocalDate.of(2021, 1, 23), LocalDate.of(2021, 1, 24), storage.getAllPatienter().get(1), storage.getAllLaegemidler().get(2), kl, an);
     }
 
 
