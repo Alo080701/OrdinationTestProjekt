@@ -10,7 +10,7 @@ public abstract class Ordination {
 
     // TODO Link til Laegemiddel
     // TODO constructor (med specifikation)
-    public Ordination(LocalDate startDen, LocalDate slutDen, Laegemiddel laegemiddel) {
+    public Ordination(LocalDate startDen, LocalDate slutDen) {
         this.startDen = startDen;
         this.slutDen = slutDen;
         this.laegemiddel = laegemiddel;
