@@ -107,7 +107,7 @@ public class Controller {
     //Let;    faktor der anvendes hvis patient vejer < 25 kg
     //Normal; faktor der anvendes hvis 25 kg <= patient vægt <= 120 kg
     //Tung;   faktor der anvendes hvis patient vægt > 120 kg
-    public double anbefaletDosisPrDoegn(Patient patient, Laegemiddel laegemiddel) {
+    public double anbefaletDosis PrDoegn(Patient patient, Laegemiddel laegemiddel) {
         double anbefalet = 0;
         if (patient.getVaegt() < 25) {
             anbefalet = laegemiddel.getEnhedPrKgPrDoegnLet();
@@ -131,6 +131,7 @@ public class Controller {
 
         int tal;
         for (Patient patient : storage.getAllPatienter()) {
+            if(patient.getVaegt() >= vægtStart && patient.getVaegt() <= vægtSlut)
             for (Ordination ordination : patient.getOrdinationer()) {
                 if (ordination.getLaegemiddel().equals(laegemiddel)) {
                     antal++;
@@ -225,8 +226,9 @@ public class Controller {
 
 
     private void checkIllegalDates(LocalDate start, LocalDate end) {
-        throw new IllegalArgumentException("Start date is before end date");
-
+        if (end.isBefore(start)) {
+            throw new IllegalArgumentException("Start date is before end date");
+        }
     }
 
 
