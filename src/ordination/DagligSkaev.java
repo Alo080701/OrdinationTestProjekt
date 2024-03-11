@@ -6,14 +6,13 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class DagligSkaev extends Ordination{
-    private LocalTime[] klokkeslet;
-    private double[] antalEnheder;
+
     private ArrayList<Dosis> doser = new ArrayList<>();
     public DagligSkaev(LocalDate startDen, LocalDate slutDen, Laegemiddel laegemiddel, LocalTime[] klokkeslet, double[] antalEnheder) {
         super(startDen, slutDen, laegemiddel);
-        this.klokkeslet = klokkeslet;
-        this.antalEnheder = antalEnheder;
-        this.doser = doser;
+        for (int i = 0; i < klokkeslet.length; i++) {
+            opretDosis(klokkeslet[i],antalEnheder[i]);
+        }
     }
     // TODO
 ///TEST
