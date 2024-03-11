@@ -9,8 +9,8 @@ public class PN extends Ordination {
     private double antalEnheder;
     private ArrayList<LocalDate> dosisDates = new ArrayList<>();
 
-    public PN(LocalDate startDen, LocalDate slutDen, Laegemiddel laegemiddel, double antal) {
-        super(startDen, slutDen, laegemiddel);
+    public PN(LocalDate startDen, LocalDate slutDen, double antal) {
+        super(startDen, slutDen);
         this.antalEnheder = antal;
     }
 

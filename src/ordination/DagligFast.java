@@ -8,9 +8,9 @@ import java.util.Arrays;
 public class DagligFast extends Ordination {
     private Dosis[] doser;
 
-    public DagligFast(LocalDate startDen, LocalDate slutDen, Laegemiddel laegemiddel, double morgenAntal, double middagAntal, double aftenAntal,
+    public DagligFast(LocalDate startDen, LocalDate slutDen, double morgenAntal, double middagAntal, double aftenAntal,
                       double natAntal) {
-        super(startDen, slutDen, laegemiddel);
+        super(startDen, slutDen);
         this.doser = new Dosis[4];
         doser[0] = new Dosis(LocalTime.of(8, 0), morgenAntal);
         doser[1] = new Dosis(LocalTime.of(12, 0), middagAntal);

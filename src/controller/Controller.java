@@ -37,7 +37,8 @@ public class Controller {
     public PN opretPNOrdination(LocalDate startDen, LocalDate slutDen, Patient patient, Laegemiddel laegemiddel, double antal) {
 
 
-        PN newPN = new PN(startDen, slutDen, laegemiddel, antal);
+        PN newPN = new PN(startDen, slutDen, antal);
+        newPN.setLaegemiddel(laegemiddel);
 
         patient.newOrdination(newPN);
         return newPN;
@@ -52,7 +53,8 @@ public class Controller {
     public DagligFast opretDagligFastOrdination(LocalDate startDen, LocalDate slutDen, Patient patient, Laegemiddel laegemiddel, double morgenAntal, double middagAntal, double aftenAntal, double natAntal) {
         checkIllegalDates(startDen, slutDen);
 
-        DagligFast nyDF = new DagligFast(startDen, slutDen, laegemiddel, morgenAntal, middagAntal, aftenAntal, natAntal);
+        DagligFast nyDF = new DagligFast(startDen, slutDen, morgenAntal, middagAntal, aftenAntal, natAntal);
+        nyDF.setLaegemiddel(laegemiddel);
 
         patient.newOrdination(nyDF);
 
@@ -76,9 +78,11 @@ public class Controller {
             throw new IllegalArgumentException("Enheder og klokkeslet ikke ens");
         }
 
-        DagligSkaev nyDK = new DagligSkaev(startDen, slutDen, laegemiddel, klokkeSlet, antalEnheder);
+        DagligSkaev nyDK = new DagligSkaev(startDen, slutDen, klokkeSlet, antalEnheder);
+        nyDK.setLaegemiddel(laegemiddel);
 
         patient.newOrdination(nyDK);
+
 
         return nyDK;
     }
