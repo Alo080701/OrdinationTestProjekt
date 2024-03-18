@@ -14,12 +14,12 @@ public class DagligSkaev extends Ordination{
             opretDosis(klokkeslet[i],antalEnheder[i]);
         }
     }
-    // TODO
-///TEST
+
 
     public ArrayList<Dosis> getDoser() {
         return doser;
     }
+
 
     public void opretDosis(LocalTime tid, double antal) {
         Dosis dosis = new Dosis(tid,antal);
@@ -33,7 +33,7 @@ public class DagligSkaev extends Ordination{
     @Override
     public double samletDosis() {
         double dage = ChronoUnit.DAYS.between(getStartDen(),getSlutDen());
-        double samlet = samletDosis()/dage;
+        double samlet = doegnDosis() * dage;
 
         return samlet;
     }
