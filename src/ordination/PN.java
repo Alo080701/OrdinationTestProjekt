@@ -33,9 +33,8 @@ public class PN extends Ordination {
     }
 
     public double doegnDosis() {
-        double dage = ChronoUnit.DAYS.between(getStartDen(), getSlutDen());
         double samlet = 0;
-        samlet = (dosisDates.size() * antalEnheder) / dage;
+        samlet = (dosisDates.size() * antalEnheder) / antalDage();
         return samlet;
 
     }

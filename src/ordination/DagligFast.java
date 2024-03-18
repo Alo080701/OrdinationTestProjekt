@@ -24,8 +24,7 @@ public class DagligFast extends Ordination {
 
     @Override
     public double samletDosis() {
-        double dage = ChronoUnit.DAYS.between(getStartDen(), getSlutDen());
-        double samlet = doegnDosis() * dage;
+        double samlet = doegnDosis() * antalDage();
 
         return samlet;
     }
