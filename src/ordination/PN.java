@@ -34,7 +34,23 @@ public class PN extends Ordination {
 
     public double doegnDosis() {
         double samlet = 0;
-        samlet = (dosisDates.size() * antalEnheder) / antalDage();
+
+        int antalDage;
+
+        LocalDate førsteDosis = LocalDate.MAX;
+        LocalDate sidsteDosis = LocalDate.MIN;
+
+        for (LocalDate dosisDate : dosisDates) {
+            if (førsteDosis.isAfter(dosisDate)) {
+                førsteDosis = dosisDate;
+            } else if (sidsteDosis.isBefore(dosisDate)) {
+                sidsteDosis = dosisDate;
+            }
+        }
+
+        int dageMellem = (int) førsteDosis.until(sidsteDosis, ChronoUnit.DAYS);
+
+        samlet = (dosisDates.size() * antalEnheder) / dageMellem;
         return samlet;
 
     }
