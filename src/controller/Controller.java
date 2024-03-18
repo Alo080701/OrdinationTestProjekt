@@ -112,11 +112,11 @@ public class Controller {
     public double anbefaletDosisPrDoegn(Patient patient, Laegemiddel laegemiddel) {
         double anbefalet = 0;
         if (patient.getVaegt() < 25) {
-            anbefalet = laegemiddel.getEnhedPrKgPrDoegnLet();
+            anbefalet = patient.getVaegt()*laegemiddel.getEnhedPrKgPrDoegnLet();
         } else if (patient.getVaegt() >= 25 || patient.getVaegt() <= 120) {
-            anbefalet = laegemiddel.getEnhedPrKgPrDoegnNormal();
+            anbefalet = patient.getVaegt()*laegemiddel.getEnhedPrKgPrDoegnNormal();
         } else {
-            anbefalet = laegemiddel.getEnhedPrKgPrDoegnLet();
+            anbefalet = patient.getVaegt()*laegemiddel.getEnhedPrKgPrDoegnLet();
         }
         return anbefalet;
     }
