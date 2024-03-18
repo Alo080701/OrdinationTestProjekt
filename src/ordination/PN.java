@@ -23,7 +23,7 @@ public class PN extends Ordination {
      * @return
      */
     public boolean givDosis(LocalDate givesDen) {
-        boolean isLegit = !(givesDen.isBefore(getStartDen()) || givesDen.isBefore(getSlutDen()));
+        boolean isLegit = !(givesDen.isBefore(getStartDen()) || givesDen.isAfter(getSlutDen()));
 
         if (isLegit) {
             dosisDates.add(givesDen);
