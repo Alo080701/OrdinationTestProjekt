@@ -130,7 +130,6 @@ public class Controller {
 
         int antal = 0;
 
-        int tal;
         for (Patient patient : storage.getAllPatienter()) {
             if (patient.getVaegt() >= vægtStart && patient.getVaegt() <= vægtSlut)
                 for (Ordination ordination : patient.getOrdinationer()) {
