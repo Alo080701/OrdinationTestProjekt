@@ -35,28 +35,16 @@ public class PN extends Ordination {
     public double doegnDosis() {
         double samlet = 0;
 
-        int antalDage;
-
         int dageMellem = 0;
 
-        LocalDate førsteDosis = LocalDate.MAX;
-        LocalDate sidsteDosis = LocalDate.MIN;
+        LocalDate førsteDosis = null;
+        LocalDate sidsteDosis = null;
 
-        if (dosisDates.size() == 1) {
-            førsteDosis = dosisDates.get(0);
-            sidsteDosis = dosisDates.get(0);
-            dageMellem = 1;
-        } else if (dosisDates.size() == 0) {
-            førsteDosis = null;
-            sidsteDosis = null;
-            dageMellem = 0;
-            samlet = 0;
-        } else {
-
+        if (dosisDates.size() > 1) {
             for (LocalDate dosisDate : dosisDates) {
-                if (førsteDosis.isAfter(dosisDate)) {
+                if (førsteDosis == null || førsteDosis.isAfter(dosisDate)) {
                     førsteDosis = dosisDate;
-                } else if (sidsteDosis.isBefore(dosisDate)) {
+                } else if (sidsteDosis == null || sidsteDosis.isBefore(dosisDate)) {
                     sidsteDosis = dosisDate;
                 }
             }
@@ -64,6 +52,10 @@ public class PN extends Ordination {
             if (dageMellem == 0) {
                 dageMellem++;
             }
+        } else if (dosisDates.size() == 1) {
+            førsteDosis = dosisDates.get(0);
+            sidsteDosis = dosisDates.get(0);
+            dageMellem = 1;
         }
 
 
