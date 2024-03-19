@@ -37,20 +37,39 @@ public class PN extends Ordination {
 
         int antalDage;
 
+        int dageMellem = 0;
+
         LocalDate førsteDosis = LocalDate.MAX;
         LocalDate sidsteDosis = LocalDate.MIN;
 
-        for (LocalDate dosisDate : dosisDates) {
-            if (førsteDosis.isAfter(dosisDate)) {
-                førsteDosis = dosisDate;
-            } else if (sidsteDosis.isBefore(dosisDate)) {
-                sidsteDosis = dosisDate;
+        if (dosisDates.size() == 1) {
+            førsteDosis = dosisDates.get(0);
+            sidsteDosis = dosisDates.get(0);
+            dageMellem = 1;
+        } else if (dosisDates.size() == 0) {
+            førsteDosis = null;
+            sidsteDosis = null;
+            dageMellem = 0;
+            samlet = 0;
+        } else {
+
+            for (LocalDate dosisDate : dosisDates) {
+                if (førsteDosis.isAfter(dosisDate)) {
+                    førsteDosis = dosisDate;
+                } else if (sidsteDosis.isBefore(dosisDate)) {
+                    sidsteDosis = dosisDate;
+                }
+            }
+            dageMellem = (int) førsteDosis.until(sidsteDosis, ChronoUnit.DAYS);
+            if (dageMellem == 0) {
+                dageMellem++;
             }
         }
 
-        int dageMellem = (int) førsteDosis.until(sidsteDosis, ChronoUnit.DAYS);
 
         samlet = (dosisDates.size() * antalEnheder) / dageMellem;
+
+
         return samlet;
 
     }
