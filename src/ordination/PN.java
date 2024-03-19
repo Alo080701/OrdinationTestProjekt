@@ -60,7 +60,7 @@ public class PN extends Ordination {
                     sidsteDosis = dosisDate;
                 }
             }
-            dageMellem = (int) førsteDosis.until(sidsteDosis, ChronoUnit.DAYS);
+            dageMellem = (int) førsteDosis.until(sidsteDosis, ChronoUnit.DAYS) + 1;
             if (dageMellem == 0) {
                 dageMellem++;
             }
