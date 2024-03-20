@@ -31,8 +31,10 @@ public class PN extends Ordination {
 
         return isLegit;
     }
-
+        //For PN skal døgndosis beregnes som:
+        //(antal gange ordinationen er anvendt * antal enheder) / (antal dage mellem første og sidste givning)
     public double doegnDosis() {
+
         double samlet = 0;
 
         int dageMellem = 0;
