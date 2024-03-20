@@ -16,7 +16,7 @@ public class DagligFast extends Ordination {
         doser[1] = new Dosis(LocalTime.of(12, 0), middagAntal);
         doser[2] = new Dosis(LocalTime.of(18, 0), aftenAntal);
         doser[3] = new Dosis(LocalTime.of(2, 0), natAntal);
-        if (morgenAntal == 0 && middagAntal == 0 && middagAntal == 0 && aftenAntal == 0){
+        if (morgenAntal == 0 && middagAntal == 0 && aftenAntal == 0 && natAntal == 0){
             throw new ArithmeticException("alle dosis antal kan ikke være 0");
         }
     }
