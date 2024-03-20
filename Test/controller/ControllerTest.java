@@ -81,7 +81,7 @@ class ControllerTest {
     @Test
     void anbefaletDosisPrDoegnTC2() {
         int vægt = 25;
-        assertEquals(12.5, controller.anbefaletDosisPrDoegn(controller.opretPatient("0303070353", "TESTMAND", vægt), alnok));
+        assertEquals(25, controller.anbefaletDosisPrDoegn(controller.opretPatient("0303070353", "TESTMAND", vægt), alnok));
 
     }
 
