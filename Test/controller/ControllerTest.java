@@ -1,9 +1,6 @@
 package controller;
 
-import ordination.DagligFast;
-import ordination.Laegemiddel;
-import ordination.PN;
-import ordination.Patient;
+import ordination.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -94,7 +91,7 @@ class ControllerTest {
 
     @Test
     void anbefaletDosisPrDoegnTC4() {
-            int vægt = 120;
+        int vægt = 120;
         assertEquals(vægt, controller.anbefaletDosisPrDoegn(controller.opretPatient("0303070353", "TESTMAND", vægt), alnok));
 
     }
@@ -103,6 +100,68 @@ class ControllerTest {
     void anbefaletDosisPrDoegnTC5() {
         int vægt = 150;
         assertEquals(300, controller.anbefaletDosisPrDoegn(controller.opretPatient("0303070353", "TESTMAND", vægt), alnok));
+
+    }
+
+    @Test
+    void antalOrdinationerPrVægtPrLægemiddelTC1() {
+        Patient bertil = controller.opretPatient("0202020202", "Bertil Hoffmann", 20);
+        Patient johan = controller.opretPatient("3303303004", "Johan Møller", 60);
+        Ordination ord1B = controller.opretPNOrdination(LocalDate.of(2024, 03, 18), LocalDate.of(2024, 03, 24), bertil, alnok, 5);
+        Ordination ord2B = controller.opretPNOrdination(LocalDate.of(2024, 03, 10), LocalDate.of(2024, 03, 20), bertil, alnok, 5);
+        Ordination ord1J = controller.opretPNOrdination(LocalDate.of(2024, 02, 05), LocalDate.of(2024, 02, 05), johan, alnok, 5);
+
+        assertEquals(2, controller.antalOrdinationerPrVægtPrLægemiddel(1, 20, alnok));
+    }
+
+    @Test
+    void antalOrdinationerPrVægtPrLægemiddelTC2() {
+        Patient bertil = controller.opretPatient("0202020202", "Bertil Hoffmann", 20);
+        Patient johan = controller.opretPatient("3303303004", "Johan Møller", 60);
+        Ordination ord1B = controller.opretPNOrdination(LocalDate.of(2024, 03, 18), LocalDate.of(2024, 03, 24), bertil, alnok, 5);
+        Ordination ord2B = controller.opretPNOrdination(LocalDate.of(2024, 03, 10), LocalDate.of(2024, 03, 20), bertil, alnok, 5);
+        Ordination ord1J = controller.opretPNOrdination(LocalDate.of(2024, 02, 05), LocalDate.of(2024, 02, 05), johan, alnok, 5);
+
+        assertEquals(3, controller.antalOrdinationerPrVægtPrLægemiddel(1, 100, alnok));
+    }
+
+
+    @Test
+    void antalOrdinationerPrVægtPrLægemiddelTC3() {
+        Patient bertil = controller.opretPatient("0202020202", "Bertil Hoffmann", 20);
+        Patient johan = controller.opretPatient("3303303004", "Johan Møller", 60);
+        Ordination ord1B = controller.opretPNOrdination(LocalDate.of(2024, 03, 18), LocalDate.of(2024, 03, 24), bertil, alnok, 5);
+        Ordination ord2B = controller.opretPNOrdination(LocalDate.of(2024, 03, 10), LocalDate.of(2024, 03, 20), bertil, alnok, 5);
+        Ordination ord1J = controller.opretPNOrdination(LocalDate.of(2024, 02, 05), LocalDate.of(2024, 02, 05), johan, alnok, 5);
+
+        assertEquals(1, controller.antalOrdinationerPrVægtPrLægemiddel(50, 100, alnok));
+    }
+
+    @Test
+    void ordinationPNAnvendtTC1() {
+        PN pn = controller.opretPNOrdination(LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05), patient20, alnok, 5);
+
+        controller.ordinationPNAnvendt(pn, LocalDate.of(2024, 01, 01));
+
+        assertEquals(LocalDate.of(2024, 01, 01),pn.getDosisDates().getFirst());
+    }
+    @Test
+    void ordinationPNAnvendtTC2() {
+        PN pn = controller.opretPNOrdination(LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05), patient20, alnok, 5);
+
+        controller.ordinationPNAnvendt(pn, LocalDate.of(2024, 01, 05));
+
+        assertEquals(LocalDate.of(2024, 01, 05),pn.getDosisDates().getFirst());
+    }
+    @Test
+    void ordinationPNAnvendtTC3() {
+        PN pn = controller.opretPNOrdination(LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05), patient20, alnok, 5);
+
+
+       Exception exception = assertThrows(IllegalArgumentException.class,() -> controller.ordinationPNAnvendt(pn, LocalDate.of(2024, 01, 06)));
+
+       assertEquals("Dato er uden for gyldighedsperiode",exception.getMessage());
+
 
     }
 
