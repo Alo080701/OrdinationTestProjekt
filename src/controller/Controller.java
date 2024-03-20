@@ -116,7 +116,7 @@ public class Controller {
         } else if (patient.getVaegt() >= 25 || patient.getVaegt() <= 120) {
             anbefalet = patient.getVaegt()*laegemiddel.getEnhedPrKgPrDoegnNormal();
         } else {
-            anbefalet = patient.getVaegt()*laegemiddel.getEnhedPrKgPrDoegnLet();
+            anbefalet = patient.getVaegt()*laegemiddel.getEnhedPrKgPrDoegnTung();
         }
         return anbefalet;
     }
