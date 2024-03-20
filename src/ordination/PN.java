@@ -14,6 +14,10 @@ public class PN extends Ordination {
         this.antalEnheder = antal;
     }
 
+    public ArrayList<LocalDate> getDosisDates() {
+        return dosisDates;
+    }
+
     /**
      * Registrerer at der er givet en dosis paa dagen givesDen
      * Returnerer true hvis givesDen er inden for ordinationens gyldighedsperiode og datoen huskes

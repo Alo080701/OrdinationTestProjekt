@@ -17,7 +17,7 @@ class DagligFastTest {
 
     @BeforeEach
     void setup() {
-        controller = Controller.getTestController();
+        controller = Controller.getController();
         p1 = controller.opretPatient("0101010101","Fornavn Efternavn", 45);
         l1 = controller.opretLaegemiddel("Alnok", 0.5, 1, 2, "Styk");
     }
