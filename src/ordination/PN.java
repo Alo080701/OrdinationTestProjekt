@@ -15,7 +15,7 @@ public class PN extends Ordination {
     }
 
     public ArrayList<LocalDate> getDosisDates() {
-        return dosisDates;
+        return new ArrayList<>(dosisDates);
     }
 
     /**
