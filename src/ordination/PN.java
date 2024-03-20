@@ -13,6 +13,9 @@ public class PN extends Ordination {
     public PN(LocalDate startDen, LocalDate slutDen, double antal) {
         super(startDen, slutDen);
         this.antalEnheder = antal;
+        if (antal == 0){
+            throw new NullPointerException("Antal kan ikke være 0");
+        }
     }
 
     public ArrayList<LocalDate> getDosisDates() {
