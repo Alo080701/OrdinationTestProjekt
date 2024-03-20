@@ -52,6 +52,13 @@ class DagligSkaevTest {
 
         // assertEquals(,dagligSkaev.getDoser().getLast());
 
+
+    }
+
+    @Test
+    void ExceptionOpretDosis() {
+        Exception exception = assertThrows(NullPointerException.class, () -> dagligSkaev.opretDosis(LocalTime.of(8,0),0));
+        assertEquals(exception.getMessage(), "Antal kan ikke være 0");
     }
 
     @Test
