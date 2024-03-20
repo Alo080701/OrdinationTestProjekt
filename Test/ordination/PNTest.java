@@ -143,4 +143,30 @@ class PNTest {
 
     }
 
+    @Test
+    void samletDosisT1() {
+        double expected = 0;
+
+        assertEquals(expected, pn1.samletDosis());
+
+    }
+    @Test
+    void samletDosisT2() {
+        pn1.givDosis(LocalDate.of(2024, 04, 15));
+
+        double expected = 2;
+
+        assertEquals(expected, pn1.samletDosis());
+
+    }
+    @Test
+    void samletDosisT3() {
+        pn1.givDosis(LocalDate.of(2024, 04, 10));
+        pn1.givDosis(LocalDate.of(2024, 04, 20));
+
+        double expected = 4;
+
+        assertEquals(expected, pn1.samletDosis());
+
+    }
 }
