@@ -14,7 +14,7 @@ public class PN extends Ordination {
         super(startDen, slutDen);
         this.antalEnheder = antal;
         if (antal == 0){
-            throw new NullPointerException("Antal kan ikke være 0");
+            throw new ArithmeticException("Antal kan ikke være 0");
         }
     }
 
