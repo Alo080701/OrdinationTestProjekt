@@ -205,7 +205,7 @@ public class Controller {
     }
 
 
-    private void checkIllegalDates(LocalDate start, LocalDate end) {
+     void checkIllegalDates(LocalDate start, LocalDate end) {
         if (end.isBefore(start)) {
             throw new IllegalArgumentException("Start date is before end date");
         }

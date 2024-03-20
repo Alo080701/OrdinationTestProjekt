@@ -233,7 +233,8 @@ class ControllerTest {
         assertEquals("Antal kan ikke være 0", exception.getMessage());
 
     }
-@Test
+
+    @Test
     void OpretDagligSkaevOrdinationTC3() {
 
         LocalTime[] kl = {LocalTime.of(12, 0), LocalTime.of(12, 40)};
@@ -245,11 +246,12 @@ class ControllerTest {
         assertEquals("Antal kan ikke være 0", exception.getMessage());
 
     }
-@Test
+
+    @Test
     void OpretDagligSkaevOrdinationTC4() {
 
         LocalTime[] kl = {LocalTime.of(12, 0), LocalTime.of(12, 40), LocalTime.of(16, 0), LocalTime.of(16, 50)};
-        double[] an = {1, 1,1,1};
+        double[] an = {1, 1, 1, 1};
 
         DagligSkaev DS = controller.opretDagligSkaevOrdination(LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05), patient160, alnok, kl, an);
 
@@ -262,8 +264,22 @@ class ControllerTest {
     }
 
 
+    @Test
+    void checkIllegalDatesTC1() {
 
-    
+        assertDoesNotThrow(() ->controller.checkIllegalDates(LocalDate.of(2024,04,10),LocalDate.of(2024,04,10)))    ;
 
+
+    }
+
+
+    @Test
+    void checkIllegalDatesTC2(){
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> controller.checkIllegalDates(LocalDate.of(2024,01,06),LocalDate.of(2024,01,05)));
+
+        assertEquals("Start date is before end date", exception.getMessage());
+
+    }
 
 }
