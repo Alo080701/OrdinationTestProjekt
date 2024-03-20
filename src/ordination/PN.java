@@ -3,6 +3,7 @@ package ordination;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import static java.time.temporal.ChronoUnit.DAYS;
 
 public class PN extends Ordination {
 
@@ -41,7 +42,7 @@ public class PN extends Ordination {
 
         double samlet = 0;
 
-        int dageMellem = 0;
+        double dageMellem = 0;
 
         LocalDate førsteDosis = null;
         LocalDate sidsteDosis = null;
@@ -54,10 +55,7 @@ public class PN extends Ordination {
                     sidsteDosis = dosisDate;
                 }
             }
-            dageMellem = (int) førsteDosis.until(sidsteDosis, ChronoUnit.DAYS) + 1;
-            if (dageMellem == 0) {
-                dageMellem++;
-            }
+            dageMellem = (int)  DAYS.between(førsteDosis,sidsteDosis);
         } else if (dosisDates.size() == 1) {
             førsteDosis = dosisDates.get(0);
             sidsteDosis = dosisDates.get(0);

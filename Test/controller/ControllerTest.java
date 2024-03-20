@@ -143,27 +143,75 @@ class ControllerTest {
 
         controller.ordinationPNAnvendt(pn, LocalDate.of(2024, 01, 01));
 
-        assertEquals(LocalDate.of(2024, 01, 01),pn.getDosisDates().getFirst());
+        assertEquals(LocalDate.of(2024, 01, 01), pn.getDosisDates().getFirst());
     }
+
     @Test
     void ordinationPNAnvendtTC2() {
         PN pn = controller.opretPNOrdination(LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05), patient20, alnok, 5);
 
         controller.ordinationPNAnvendt(pn, LocalDate.of(2024, 01, 05));
 
-        assertEquals(LocalDate.of(2024, 01, 05),pn.getDosisDates().getFirst());
+        assertEquals(LocalDate.of(2024, 01, 05), pn.getDosisDates().getFirst());
     }
+
     @Test
     void ordinationPNAnvendtTC3() {
         PN pn = controller.opretPNOrdination(LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05), patient20, alnok, 5);
 
 
-       Exception exception = assertThrows(IllegalArgumentException.class,() -> controller.ordinationPNAnvendt(pn, LocalDate.of(2024, 01, 06)));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> controller.ordinationPNAnvendt(pn, LocalDate.of(2024, 01, 06)));
 
-       assertEquals("Dato er uden for gyldighedsperiode",exception.getMessage());
+        assertEquals("Dato er uden for gyldighedsperiode", exception.getMessage());
 
 
     }
+
+
+    @Test
+    void opretDagligFastOrdinationTC1() {
+
+        DagligFast df =  controller.opretDagligFastOrdination(LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05), patient160, alnok, 2, 3, 4, 5);
+
+        DagligFast toAssert = (DagligFast) patient160.getOrdinationer().getFirst();
+
+        assertEquals(df,toAssert);
+
+        assertEquals(14*5, toAssert.samletDosis());
+    }
+
+    @Test
+    void opretDagligFastOrdinationTC2() {
+
+        DagligFast df =  controller.opretDagligFastOrdination(LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05), patient160, alnok, 3, 4, 1, 4);
+
+        DagligFast toAssert = (DagligFast) patient160.getOrdinationer().getFirst();
+
+        assertEquals(df,toAssert);
+
+        assertEquals(12*5, toAssert.samletDosis());
+    }
+
+    @Test
+    void opretDagligFastOrdinationTC3() {
+
+        DagligFast df =  controller.opretDagligFastOrdination(LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05), patient160, alnok, 0, 3, 1, 0);
+
+        DagligFast toAssert = (DagligFast) patient160.getOrdinationer().getFirst();
+
+        assertEquals(df,toAssert);
+
+        assertEquals(4*5, toAssert.samletDosis());
+    }
+
+
+
+    @Test
+    void OpretDagligSkaevOrdination(){
+
+    }
+
+
 
 
 }
