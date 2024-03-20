@@ -5,7 +5,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import static java.time.temporal.ChronoUnit.DAYS;
 
-public class PN extends Ordination {
+public class  PN extends Ordination {
 
     private double antalEnheder;
     private ArrayList<LocalDate> dosisDates = new ArrayList<>();

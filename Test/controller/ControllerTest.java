@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -171,47 +172,98 @@ class ControllerTest {
     @Test
     void opretDagligFastOrdinationTC1() {
 
-        DagligFast df =  controller.opretDagligFastOrdination(LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05), patient160, alnok, 2, 3, 4, 5);
+        DagligFast df = controller.opretDagligFastOrdination(LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05), patient160, alnok, 2, 3, 4, 5);
 
         DagligFast toAssert = (DagligFast) patient160.getOrdinationer().getFirst();
 
-        assertEquals(df,toAssert);
+        assertEquals(df, toAssert);
 
-        assertEquals(14*5, toAssert.samletDosis());
+        assertEquals(14 * 5, toAssert.samletDosis());
     }
 
     @Test
     void opretDagligFastOrdinationTC2() {
 
-        DagligFast df =  controller.opretDagligFastOrdination(LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05), patient160, alnok, 3, 4, 1, 4);
+        DagligFast df = controller.opretDagligFastOrdination(LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05), patient160, alnok, 3, 4, 1, 4);
 
         DagligFast toAssert = (DagligFast) patient160.getOrdinationer().getFirst();
 
-        assertEquals(df,toAssert);
+        assertEquals(df, toAssert);
 
-        assertEquals(12*5, toAssert.samletDosis());
+        assertEquals(12 * 5, toAssert.samletDosis());
     }
 
     @Test
     void opretDagligFastOrdinationTC3() {
 
-        DagligFast df =  controller.opretDagligFastOrdination(LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05), patient160, alnok, 0, 3, 1, 0);
+        DagligFast df = controller.opretDagligFastOrdination(LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05), patient160, alnok, 0, 3, 1, 0);
 
         DagligFast toAssert = (DagligFast) patient160.getOrdinationer().getFirst();
 
-        assertEquals(df,toAssert);
+        assertEquals(df, toAssert);
 
-        assertEquals(4*5, toAssert.samletDosis());
+        assertEquals(4 * 5, toAssert.samletDosis());
     }
-
 
 
     @Test
-    void OpretDagligSkaevOrdination(){
+    void OpretDagligSkaevOrdinationTC1() {
+
+        LocalTime[] kl = {LocalTime.of(12, 0), LocalTime.of(12, 40), LocalTime.of(16, 0)};
+        double[] an = {1, 2, 4};
+
+        DagligSkaev DS = controller.opretDagligSkaevOrdination(LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05), patient160, alnok, kl, an);
+
+        DagligSkaev toAssert = (DagligSkaev) patient160.getOrdinationer().getFirst();
+
+        assertEquals(DS, toAssert);
+
+        assertEquals(7 * 5, toAssert.samletDosis());
+
+    }
+
+    @Test
+    void OpretDagligSkaevOrdinationTC2() {
+
+        LocalTime[] kl = {LocalTime.of(12, 0), LocalTime.of(12, 40), LocalTime.of(16, 0), LocalTime.of(16, 40), LocalTime.of(20, 00)};
+        double[] an = {0, 2, 4, 2, 1};
+
+        Exception exception = assertThrows(ArithmeticException.class, () -> controller.opretDagligSkaevOrdination(LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05), patient160, alnok, kl, an));
+
+        assertEquals("Antal kan ikke være 0", exception.getMessage());
+
+    }
+@Test
+    void OpretDagligSkaevOrdinationTC3() {
+
+        LocalTime[] kl = {LocalTime.of(12, 0), LocalTime.of(12, 40)};
+        double[] an = {0, 2};
+
+
+        Exception exception = assertThrows(ArithmeticException.class, () -> controller.opretDagligSkaevOrdination(LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05), patient160, alnok, kl, an));
+
+        assertEquals("Antal kan ikke være 0", exception.getMessage());
+
+    }
+@Test
+    void OpretDagligSkaevOrdinationTC4() {
+
+        LocalTime[] kl = {LocalTime.of(12, 0), LocalTime.of(12, 40), LocalTime.of(16, 0), LocalTime.of(16, 50)};
+        double[] an = {1, 1,1,1};
+
+        DagligSkaev DS = controller.opretDagligSkaevOrdination(LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05), patient160, alnok, kl, an);
+
+        DagligSkaev toAssert = (DagligSkaev) patient160.getOrdinationer().getFirst();
+
+        assertEquals(DS, toAssert);
+
+        assertEquals(4 * 5, toAssert.samletDosis());
 
     }
 
 
+
+    
 
 
 }

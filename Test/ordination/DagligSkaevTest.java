@@ -23,7 +23,6 @@ class DagligSkaevTest {
     Laegemiddel alnok;
 
     DagligSkaev dagligSkaev;
-    double[] testAntalEnheder = {2,5,2,1};
 
     @BeforeEach
     void setup() {
@@ -37,6 +36,7 @@ class DagligSkaevTest {
         sjovPille = controller.opretLaegemiddel("Sjov pille", 0.1, 0.15, 0.20, "Styk");
         alnok = controller.opretLaegemiddel("Alnok", 0.5, 1, 2, "Styk");
 
+        double[] testAntalEnheder = {2,5,2,1};
         LocalTime[] testTime = {LocalTime.of(7,30),LocalTime.of(19,0),LocalTime.of(22,30),LocalTime.of(3,0)};
         dagligSkaev = controller.opretDagligSkaevOrdination(LocalDate.of(2024,4,7),LocalDate.of(2024,4,15),patient20,sjovPille,testTime,testAntalEnheder);
 
@@ -62,11 +62,45 @@ class DagligSkaevTest {
     }
 
     @Test
-    void samletDosis() {
-        double expected = 0;
+    void samletDosisTC1() {
+        double[] testAntalEnheder = {1,2};
+        LocalTime[] testTime = {LocalTime.of(7,30),LocalTime.of(19,0)};
+        dagligSkaev = controller.opretDagligSkaevOrdination(LocalDate.of(2024,4,10),LocalDate.of(2024,4,20),patient20,sjovPille,testTime,testAntalEnheder);
+        double expected = 33;
         double actual = dagligSkaev.samletDosis();
+        System.out.println(actual);
+        assertEquals(expected,actual);
+    }
+    @Test
+    void samletDosisTC2() {
+        double[] testAntalEnheder = {4,2,1};
+        LocalTime[] testTime = {LocalTime.of(7,30),LocalTime.of(19,0),LocalTime.of(23,0)};
+        dagligSkaev = controller.opretDagligSkaevOrdination(LocalDate.of(2024,4,10),LocalDate.of(2024,4,20),patient20,sjovPille,testTime,testAntalEnheder);
+        double expected =77;
+        double actual = dagligSkaev.samletDosis();
+        System.out.println(actual);
         assertEquals(expected,actual);
 
+    }
+    @Test
+    void samletDosisTC3() {
+        double[] testAntalEnheder = {2,5,2,1};
+        LocalTime[] testTime = {LocalTime.of(7,30),LocalTime.of(10,30),LocalTime.of(15,30),LocalTime.of(19,0)};
+        dagligSkaev = controller.opretDagligSkaevOrdination(LocalDate.of(2024,4,10),LocalDate.of(2024,4,20),patient20,sjovPille,testTime,testAntalEnheder);
+        double expected = 110;
+        double actual = dagligSkaev.samletDosis();
+        System.out.println(actual);
+        assertEquals(expected,actual);
+    }
+    @Test
+    void samletDosisTC4() {
+        double[] testAntalEnheder = {2,2,2};
+        LocalTime[] testTime = {LocalTime.of(7,30),LocalTime.of(10,30),LocalTime.of(10,30)};
+        dagligSkaev = controller.opretDagligSkaevOrdination(LocalDate.of(2024,4,10),LocalDate.of(2024,4,20),patient20,sjovPille,testTime,testAntalEnheder);
+        double expected = 66;
+        double actual = dagligSkaev.samletDosis();
+        System.out.println(actual);
+        assertEquals(expected,actual);
     }
 
     @Test
@@ -77,6 +111,7 @@ class DagligSkaevTest {
     }
     @Test
     void doegnDosisTC2(){
+
         double[] testAntalEnheder = {4,2,1};
         LocalTime[] testTime = {LocalTime.of(7,30),LocalTime.of(19,0),LocalTime.of(22,30)};
         dagligSkaev = controller.opretDagligSkaevOrdination(LocalDate.of(2024,4,7),LocalDate.of(2024,4,15),patient20,sjovPille,testTime,testAntalEnheder);
