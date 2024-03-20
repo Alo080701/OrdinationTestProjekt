@@ -119,4 +119,13 @@ class DagligSkaevTest {
         double actual = dagligSkaev.doegnDosis();
         assertEquals(expected, actual);
     }
+    @Test
+    void doegnDosisTC3(){
+        double[] testAntalEnheder = {2,5,2,1};
+        LocalTime[] testTime = {LocalTime.of(7,30),LocalTime.of(19,0),LocalTime.of(22,30),LocalTime.of(22,40)};
+        dagligSkaev = controller.opretDagligSkaevOrdination(LocalDate.of(2024,4,7),LocalDate.of(2024,4,15),patient20,sjovPille,testTime,testAntalEnheder);
+        double expected = 10;
+        double actual = dagligSkaev.doegnDosis();
+        assertEquals(expected, actual);
+    }
 }
