@@ -46,13 +46,9 @@ class DagligSkaevTest {
 
         double expected = dagligSkaev.getDoser().size() + 1;
         dagligSkaev.opretDosis(LocalTime.of(10,15),2);
-
         double actual = dagligSkaev.getDoser().size();
         assertEquals(expected,actual);
-
         // assertEquals(,dagligSkaev.getDoser().getLast());
-
-
     }
 
     @Test
