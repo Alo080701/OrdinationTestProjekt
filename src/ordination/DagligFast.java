@@ -19,6 +19,7 @@ public class DagligFast extends Ordination {
         if (morgenAntal == 0 && middagAntal == 0 && aftenAntal == 0 && natAntal == 0){
             throw new ArithmeticException("alle dosis antal kan ikke være 0");
         }
+
     }
 
     public Dosis[] getDoser() {
